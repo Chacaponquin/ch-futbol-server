@@ -12,8 +12,6 @@ import { typeDefs, resolvers } from "./src/graphql/index.js";
 
 import "./src/db/mongo.js";
 
-console.log("Hola");
-
 async function startApolloServer(typeDefs, resolvers) {
     dotenv.config();
 
