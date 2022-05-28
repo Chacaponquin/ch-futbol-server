@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { AuthenticationError } from "apollo-server-core";
 import Player from "../../../db/schemas/Player.js";
+import { playerPositions } from "../../playerPositions.js";
 
 // FUNCION PARA CREAR LA MEDIA DE CADA AÑO DEL JUGADOR
 const getMediaData = (yearStart, seasonPlayed) => {
@@ -22,7 +23,7 @@ const getMediaData = (yearStart, seasonPlayed) => {
 const getPriceData = (yearStart, seasonPlayed) => {
     const arrayResult = [];
 
-    for (let i = 0; i < seasonPlayed.length; i++) {
+    for (let i = 0; i < seasonPlayed; i++) {
         arrayResult.push({
             year: yearStart++,
             price: Array(12)
@@ -33,7 +34,7 @@ const getPriceData = (yearStart, seasonPlayed) => {
         });
     }
 
-    return [];
+    return arrayResult;
 };
 
 // FUNCION PARA CREAR LAS REDES SOCIALES
@@ -94,13 +95,13 @@ export const createRandomPlayer = async() => {
         image: faker.image.avatar(),
         salary: faker.datatype.number({ min: 500, max: 3000000 }),
         gender: "MALE",
-        position: "CAD",
         country: faker.address.country(),
         mediaRecord: mediaData,
         seasonRecords: seasonData,
         socialMedia: socialMedia,
         playerPrice: priceData,
-        // TODO: dorsalRecord
+        // TODO: dorsalRecord,
+        position: playerPositions[Math.floor(Math.random() * playerPositions.length)],
     });
 
     try {

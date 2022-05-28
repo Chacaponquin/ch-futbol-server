@@ -1,7 +1,7 @@
 import League from "../../../db/schemas/League.js";
 import { AuthenticationError } from "apollo-server-core";
 
-export const createLeague = ({ league }) => {
+export const createLeague = async({ league }) => {
     const { name, country } = league;
 
     const newLeague = new League({
@@ -10,6 +10,8 @@ export const createLeague = ({ league }) => {
     });
 
     try {
+        await newLeague.save();
+
         return newLeague;
     } catch (error) {
         throw new AuthenticationError(error);

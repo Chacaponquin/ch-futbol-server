@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { countryList } from "../../helpers/allCountries.js";
+import { playerPositions } from "../../helpers/playerPositions.js";
 
 const priceRecordSchema = new mongoose.Schema({
     year: { type: Number, required: true },
@@ -8,7 +9,7 @@ const priceRecordSchema = new mongoose.Schema({
             type: mongoose.SchemaTypes.Number,
             required: true,
             min: 30000,
-            max: 300000000,
+            max: 400000000,
         }, ],
         required: true,
         maxlength: 12,
@@ -63,7 +64,7 @@ const playerSchema = new mongoose.Schema({
     position: {
         type: String,
         required: true,
-        enum: ["POR", "DEF", "CAD", "MCD", "MED", "EXT", "SD", "DC"],
+        enum: playerPositions,
     },
     country: { type: String, required: true, maxlength: 50, enum: countryList },
     salary: { type: Number, min: 0 },
@@ -87,6 +88,14 @@ const playerSchema = new mongoose.Schema({
     seasonRecords: { type: [seasonRecordSchema], default: [] },
 }, { timestamps: { createdAt: "create_at" } });
 
+// VIRTUAL PARA VER EL EQUIPO ACTUAL DEL JUGADOR
+playerSchema.virtual("actualTeam").get(function() {
+    const finalPos = this.teamsRecord.length - 1;
+
+    if (this.teamsRecord.length === 0) return null;
+    else return this.teamsRecord[finalPos].team;
+});
+
 // VIRTUAL CON EL NOMBRE COMPLETO
 playerSchema.virtual("fullName").get(function() {
     return `${this.firstName} ${this.lastName}`;
@@ -109,14 +118,26 @@ playerSchema.virtual("freeToTransfer").get(function() {
     return this.teamsRecord.length === 0 || this.teamsRecord[finalPos].yearFinish;
 });
 
-// VIRTUAL PARA VER EL EQUIPO ACTUAL DEL JUGADOR
-playerSchema.virtual("actualTeam").get(function() {
-    const finalPos = this.teamsRecord.length - 1;
+playerSchema.virtual("actualPrice").get(function() {
+    const finalPos = this.playerPrice.length - 1;
 
-    if (this.teamsRecord.length === 0) return null;
+    if (this.playerPrice.length === 0) return 0;
     else {
-        return this.teamsRecord[finalPos].team;
+        const ultimatePrice = this.playerPrice[finalPos].price.length - 1;
+        return this.playerPrice[finalPos].price[ultimatePrice];
     }
+});
+
+playerSchema.virtual("totalStats").get(function() {
+    let sumGoals = 0;
+    let sumAssists = 0;
+
+    for (let i = 0; i < this.seasonRecords.length; i++) {
+        sumGoals += this.seasonRecords[i].goals;
+        sumAssists += this.seasonRecords[i].assists;
+    }
+
+    return { totalGoals: sumGoals, totalAssists: sumAssists };
 });
 
 export default mongoose.model("Player", playerSchema);

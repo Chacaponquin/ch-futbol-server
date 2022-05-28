@@ -14,7 +14,6 @@ const seasonRecordSchema = new mongoose.Schema({
 
 const teamSchema = new mongoose.Schema({
     name: { type: String, required: true, maxlength: 30, unique: true },
-
     image: { type: String, required: true },
     fundationYear: { type: Date, required: true, max: Date.now() },
     budget: {
