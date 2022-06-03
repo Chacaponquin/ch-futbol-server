@@ -109,6 +109,8 @@ export const createRandomPlayer = async() => {
 
         return newPlayer;
     } catch (error) {
-        throw new AuthenticationError("No se ha podido crear el jugador");
+        if (error.name === "ValidationError")
+            throw new AuthenticationError(error.errors["country"]);
+        else throw new AuthenticationError("No se ha podido crear el jugador");
     }
 };

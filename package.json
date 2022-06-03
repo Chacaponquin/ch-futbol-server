@@ -12,17 +12,18 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@faker-js/faker": "^6.0.0",
         "apollo-server-core": "^3.6.3",
         "apollo-server-express": "^3.6.3",
         "bcrypt": "^5.0.1",
+        "cloudinary": "^1.30.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.0",
         "eslint-config-prettier": "^8.5.0",
         "express": "^4.17.3",
         "graphql": "^16.3.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^6.2.4",
-        "@faker-js/faker": "^6.0.0"
+        "mongoose": "^6.2.4"
     },
     "devDependencies": {
         "eslint": "^7.32.0",
