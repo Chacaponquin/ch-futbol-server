@@ -14,6 +14,6 @@ export const blogSchema = gql `
 
 export const blogResolver = {
     Mutation: {
-        createRandomArticle: () => createRandomArticle,
+        createRandomArticle: () => createRandomArticle(),
     },
 };
