@@ -1,8 +1,13 @@
 import { gql } from "apollo-server-core";
 import { createRandomArticle } from "../../helpers/tasks/blog/createRandomArticle.js";
 import { fetchBlogArticles } from "../../helpers/tasks/blog/fetchBlogArticles.js";
+import { findBlogArticleById } from "../../helpers/tasks/blog/findBlogArticleById.js";
 
 export const blogSchema = gql `
+  input ArticleInput {
+    id: ID!
+  }
+
   type BlogArticle {
     _id: ID!
     title: String!
@@ -10,6 +15,7 @@ export const blogSchema = gql `
     content: String!
     author: String
     createdAt: String!
+    likes: [String]
   }
 
   type Mutation {
@@ -18,6 +24,7 @@ export const blogSchema = gql `
 
   type Query {
     fetchBlogArticles: [BlogArticle]!
+    findBlogArticleById(article: ArticleInput!): BlogArticle
   }
 `;
 
@@ -27,5 +34,6 @@ export const blogResolver = {
     },
     Query: {
         fetchBlogArticles: () => fetchBlogArticles(),
+        findBlogArticleById: (root, args) => findBlogArticleById(args.article),
     },
 };
