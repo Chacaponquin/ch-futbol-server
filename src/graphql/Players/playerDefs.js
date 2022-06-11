@@ -64,7 +64,7 @@ export const playerSchema = gql `
   type Query {
     findFreePlayers: [Player]!
     fetchOwnPlayers(team: FetchOwnPlayersInput!): [Player]!
-    fetchAllPlayers: [Player]!
+    fetchAllPlayers: [Player]
   }
 
   type Mutation {
