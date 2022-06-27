@@ -9,6 +9,9 @@ import {
 } from "apollo-server-core";
 import jwt from "jsonwebtoken";
 import { typeDefs, resolvers } from "./src/graphql/index.js";
+import fileUpload from "express-fileupload";
+
+import rootRoutes from "./src/routes/routes.js";
 
 import "./src/db/mongo.js";
 
@@ -18,6 +21,8 @@ async function startApolloServer(typeDefs, resolvers) {
     const app = express();
     app.use(express.json());
     app.use(cors());
+    app.use(fileUpload({ useTempFiles: true, tempFileDir: "./upload" }));
+    app.use("/", rootRoutes);
 
     const httpServer = http.createServer(app);
 

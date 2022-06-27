@@ -1,1 +1,5 @@
-export const createPlayer = () => {};
+export const createPlayer = (player) => {
+    console.log(player);
+
+    return 1;
+};

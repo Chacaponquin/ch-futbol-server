@@ -20,6 +20,15 @@ export const playerSchema = gql `
     price: Int
   }
 
+  input PlayerInput {
+    birth: String!
+    pos: String!
+    firstName: String!
+    lastName: String!
+    country: String!
+    gender: String!
+  }
+
   input FetchOwnPlayersInput {
     teamID: ID!
   }
@@ -64,13 +73,13 @@ export const playerSchema = gql `
   type Query {
     findFreePlayers: [Player]!
     fetchOwnPlayers(team: FetchOwnPlayersInput!): [Player]!
-    fetchAllPlayers: [Player]
+    fetchAllPlayers: [Player]!
   }
 
   type Mutation {
     createRandomPlayer: Player!
     transferPlayer(data: TransferPlayerInput!): ID!
-    createPlayer: ID!
+    createPlayer(player: PlayerInput!): ID!
     deletePlayer(players: DeletePlayerInput!): ID!
   }
 `;
