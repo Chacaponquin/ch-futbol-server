@@ -7,7 +7,7 @@ import { fetchOwnPlayers } from "../../helpers/tasks/player/fetchOwnPlayers.js";
 import { findFreePlayers } from "../../helpers/tasks/player/findFreePlayers.js";
 import { transferPlayer } from "../../helpers/tasks/player/transferPlayer.js";
 
-export const playerSchema = gql `
+export const playerSchema = gql`
   enum Genders {
     MALE
     FEMALE
@@ -27,6 +27,7 @@ export const playerSchema = gql `
     lastName: String!
     country: String!
     gender: String!
+    imageUrl: String!
   }
 
   input FetchOwnPlayersInput {
@@ -67,7 +68,7 @@ export const playerSchema = gql `
     actualTeamInf: PlayerTeam
     actualPrice: Float
     totalStats: PlayerTotalStats
-    seasonRecords: [PlayerSeasonRecord]
+    seasonRecords: [PlayerSeasonRecord]!
   }
 
   type Query {
@@ -85,15 +86,15 @@ export const playerSchema = gql `
 `;
 
 export const playerResolver = {
-    Query: {
-        findFreePlayers: () => findFreePlayers(),
-        fetchOwnPlayers: (root, args) => fetchOwnPlayers(args.team),
-        fetchAllPlayers: () => fetchAllPlayers(),
-    },
-    Mutation: {
-        createRandomPlayer: () => createRandomPlayer(),
-        createPlayer: (root, args) => createPlayer(args.player),
-        transferPlayer: (root, args) => transferPlayer(args.data),
-        deletePlayer: (root, args) => deletePlayer(args.players),
-    },
+  Query: {
+    findFreePlayers: () => findFreePlayers(),
+    fetchOwnPlayers: (root, args) => fetchOwnPlayers(args.team),
+    fetchAllPlayers: () => fetchAllPlayers(),
+  },
+  Mutation: {
+    createRandomPlayer: () => createRandomPlayer(),
+    createPlayer: (root, args) => createPlayer(args.player),
+    transferPlayer: (root, args) => transferPlayer(args.data),
+    deletePlayer: (root, args) => deletePlayer(args.players),
+  },
 };

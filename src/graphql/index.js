@@ -5,16 +5,16 @@ import { teamResolver, teamSchema } from "./Teams/teamsDefs.js";
 import { userResolvers, userSchema } from "./Users/userDefs.js";
 
 export const typeDefs = [
-    userSchema,
-    playerSchema,
-    teamSchema,
-    leagueSchema,
-    blogSchema,
+  userSchema,
+  playerSchema,
+  teamSchema,
+  leagueSchema,
+  blogSchema,
 ];
 export const resolvers = [
-    userResolvers,
-    playerResolver,
-    teamResolver,
-    leagueResolvers,
-    blogResolver,
+  userResolvers,
+  playerResolver,
+  teamResolver,
+  leagueResolvers,
+  blogResolver,
 ];

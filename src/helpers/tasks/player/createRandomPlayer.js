@@ -28,9 +28,7 @@ const getPriceData = (yearStart, seasonPlayed) => {
             year: yearStart++,
             price: Array(12)
                 .fill(0)
-                .map(() => {
-                    return faker.datatype.number({ min: 30000, max: 400000000 });
-                }),
+                .map(() => faker.datatype.number({ min: 30000, max: 400000000 })),
         });
     }
 
