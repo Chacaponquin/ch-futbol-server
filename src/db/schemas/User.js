@@ -1,18 +1,23 @@
 import mongoose from "mongoose";
+import { userRoles } from "../../helpers/userRoles.js";
 
-const userSchema = new mongoose.Schema({
-    username: { type: String, required: true },
+const userSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true, unique: true },
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     email: { type: String, required: true },
-    image: { type: String, default: null },
+    image: { type: String, required: true },
     role: {
-        type: String,
-        required: true,
-        enum: ["MANAGER", "CURRENT_USER", "SUPER_USER"],
+      type: String,
+      required: true,
+      enum: Object.values(userRoles),
     },
-}, { timestamps: { createdAt: "create_at" } });
+  },
+  { timestamps: { createdAt: "create_at" } }
+);
 
 export default mongoose.model("User", userSchema);

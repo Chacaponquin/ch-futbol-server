@@ -51,6 +51,7 @@ const seasonRecordSchema = new mongoose.Schema({
 });
 
 const playerSchema = new mongoose.Schema({
+    createdBy: {type: mongoose.SchemaTypes.ObjectId, default: null, ref: 'User'},
     firstName: { type: String, required: true, maxlength: 50 },
     lastName: { type: String, required: true, maxlength: 50 },
     alias: { type: String, default: null },
