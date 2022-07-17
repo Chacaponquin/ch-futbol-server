@@ -46,8 +46,12 @@ async function startApolloServer(typeDefs, resolvers) {
       if (auth && auth.toLowerCase().startsWith("bearer ")) {
         const token = auth.substring(7);
 
-        const user = jwt.verify(token, process.env.SECRET_WORD);
-        return { currentUser: user };
+        try {
+          const user = jwt.verify(token, process.env.SECRET_WORD);
+          return { currentUser: user };
+        } catch (error) {
+          return {};
+        }
       }
     },
   });

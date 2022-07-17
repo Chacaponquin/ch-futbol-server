@@ -8,10 +8,7 @@ export const userSchema = gql`
     password: String!
     email: String!
     image: String!
-  }
-
-  input UserTokenInput {
-    token: String!
+    role: String!
   }
 
   type User {
@@ -21,11 +18,13 @@ export const userSchema = gql`
     password: String!
     email: String!
     image: String!
+    role: String!
+    category: String!
   }
 
   type Query {
     allUsers: [User]!
-    getUserByToken(token: UserTokenInput!): User!
+    getUserByToken(token: String!): User!
   }
 
   type Mutation {

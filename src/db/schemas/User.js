@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { userRoles } from "../../helpers/userRoles.js";
+import { userRoles, userCategorys } from "../../helpers/userRoles.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: Object.values(userRoles),
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: Object.values(userCategorys),
     },
   },
   { timestamps: { createdAt: "create_at" } }

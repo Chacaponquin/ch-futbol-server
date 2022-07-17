@@ -2,14 +2,10 @@ import jwt from "jsonwebtoken";
 import { AuthenticationError } from "apollo-server-core";
 import User from "../../../db/schemas/User.js";
 
-export const getUserByToken = async ({ token }) => {
+export const getUserByToken = async (token) => {
   try {
-    const user = jwt.verify(token);
-
-    console.log(user);
-
-    const userFound = await User.findById(user.id);
-
+    const user = jwt.verify(token, process.env.SECRET_WORD);
+    const userFound = await User.findOne({ _id: user.id });
     return userFound;
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError)
