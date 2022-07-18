@@ -25,4 +25,8 @@ const userSchema = new mongoose.Schema(
   { timestamps: { createdAt: "create_at" } }
 );
 
+userSchema.virtual("isAdmin").get(function () {
+  return !(this.category == userCategorys.CURRENT_USER);
+});
+
 export default mongoose.model("User", userSchema);

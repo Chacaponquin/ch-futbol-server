@@ -20,6 +20,7 @@ export const userSchema = gql`
     image: String!
     role: String!
     category: String!
+    isAdmin: Boolean!
   }
 
   type Query {
