@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       enum: Object.values(userCategorys),
     },
+    messages: {
+      type: [mongoose.SchemaTypes.ObjectId],
+      ref: "Message",
+      default: [],
+    },
   },
   { timestamps: { createdAt: "create_at" } }
 );

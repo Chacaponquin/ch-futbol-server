@@ -26,4 +26,12 @@ export const trainerSchema = gql`
   }
 `;
 
-export const trainerResolvers = {};
+export const trainerResolvers = {
+  Query: {
+    getAllTrainers: () => [],
+    getFreeTrainers: () => [],
+  },
+  Mutation: {
+    createRandomPlayer: () => 3,
+  },
+};

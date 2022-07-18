@@ -47,6 +47,11 @@ const teamSchema = new mongoose.Schema({
     default: [],
   },
   seasonRecord: { type: [seasonRecordSchema], default: [] },
+  messages: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: "Message",
+    default: [],
+  },
 });
 
 export default mongoose.model("Team", teamSchema);

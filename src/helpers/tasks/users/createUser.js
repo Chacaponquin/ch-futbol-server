@@ -1,8 +1,8 @@
 import User from "../../../db/schemas/User.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { AuthenticationError, ValidationError } from "apollo-server-core";
+import { ValidationError } from "apollo-server-core";
 import { userCategorys } from "../../userRoles.js";
+import { registerToken } from "../../registerToken.js";
 
 export const createUser = async ({
   username,
@@ -11,9 +11,9 @@ export const createUser = async ({
   image,
   role,
 }) => {
-  if (!/^[a-z]*[-._]?[a-z]*$/.test(password))
+  /*if (!/^[a-z]*[-._]?[a-z]*$/.test(password))
     throw new AuthenticationError("Mal patron para la contraseña");
-
+*/
   const hashPassword = await bcrypt.hash(password, 10);
 
   const newUser = new User({
@@ -26,10 +26,7 @@ export const createUser = async ({
   });
 
   try {
-    const doc = await newUser.save();
-    const token = jwt.sign({ id: newUser.id }, process.env.SECRET_WORD);
-
-    return { ...doc._doc, token };
+    return registerToken(newUser);
   } catch (error) {
     if (error.name === "MongoServerError")
       throw new ValidationError("Ya existe ese usuario");

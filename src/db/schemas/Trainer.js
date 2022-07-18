@@ -18,6 +18,11 @@ const trainerSchema = new mongoose.Schema(
     salary: { type: Number, min: 0 },
     socialMedia: { type: mongoose.SchemaTypes.Mixed, default: {} },
     teamsRecord: { type: [teamRecordSchema], default: [] },
+    messages: {
+      type: [mongoose.SchemaTypes.ObjectId],
+      ref: "Message",
+      default: [],
+    },
   },
   { timestamps: { createdAt: "create_at" } }
 );

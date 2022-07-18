@@ -1,5 +1,6 @@
 import { blogResolver, blogSchema } from "./Blog/blogDefs.js";
 import { leagueResolvers, leagueSchema } from "./Leagues/leagueDefs.js";
+import { messageResolvers, messageSchema } from "./Messages/messageDefs.js";
 import { playerResolver, playerSchema } from "./Players/playerDefs.js";
 import { teamResolver, teamSchema } from "./Teams/teamsDefs.js";
 import { trainerResolvers, trainerSchema } from "./Trainer/trainerDefs.js";
@@ -12,6 +13,7 @@ export const typeDefs = [
   leagueSchema,
   blogSchema,
   trainerSchema,
+  messageSchema,
 ];
 export const resolvers = [
   userResolvers,
@@ -20,4 +22,5 @@ export const resolvers = [
   leagueResolvers,
   blogResolver,
   trainerResolvers,
+  messageResolvers,
 ];

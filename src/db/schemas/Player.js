@@ -94,6 +94,12 @@ const playerSchema = new mongoose.Schema(
     nationStats: { default: {} },
 
     seasonRecords: { type: [seasonRecordSchema], default: [] },
+
+    messages: {
+      type: [mongoose.SchemaTypes.ObjectId],
+      ref: "Message",
+      default: [],
+    },
   },
   { timestamps: { createdAt: "create_at" } }
 );
