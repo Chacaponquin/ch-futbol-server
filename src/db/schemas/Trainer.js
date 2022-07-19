@@ -27,6 +27,11 @@ const trainerSchema = new mongoose.Schema(
   { timestamps: { createdAt: "create_at" } }
 );
 
+//VIRTUAL PARA OBTENER EL NOMBRE COMPLETO
+trainerSchema.virtual("fullName").get(function () {
+  return `${this.firstName} ${this.lastName}`;
+});
+
 // VIRTUAL CON LA EDAD DEL ENTRENADOR
 trainerSchema.virtual("age").get(function () {
   return new Date().getFullYear() - this.birthDate.getFullYear();

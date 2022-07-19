@@ -1,9 +1,21 @@
 import { gql } from "apollo-server-core";
+import { createRandomTrainer } from "../../helpers/tasks/trainer/createRandomTrainer.js";
+import { getAllTrainers } from "../../helpers/tasks/trainer/getAllTrainers.js";
+import { getFreeTrainers } from "../../helpers/tasks/trainer/getFreeTrainers.js";
 
 export const trainerSchema = gql`
   enum Gender {
     MALE
     FEMALE
+  }
+
+  input CreateTrainerInput {
+    firstName: String!
+    lastName: String!
+    birthDate: String!
+    image: String!
+    country: String!
+    gender: Gender!
   }
 
   type Trainer {
@@ -14,6 +26,7 @@ export const trainerSchema = gql`
     image: String!
     country: String!
     gender: Gender!
+    fullName: String!
   }
 
   type Query {
@@ -21,17 +34,18 @@ export const trainerSchema = gql`
     getFreeTrainers: [Trainer]!
   }
 
-  type Mutations {
-    createRandomTrainer: ID!
+  type Mutation {
+    createRandomTrainer: Trainer!
+    createTrainer: ID!
   }
 `;
 
 export const trainerResolvers = {
   Query: {
-    getAllTrainers: () => [],
-    getFreeTrainers: () => [],
+    getAllTrainers: () => getAllTrainers,
+    getFreeTrainers: () => getFreeTrainers(),
   },
   Mutation: {
-    createRandomPlayer: () => 3,
+    createRandomTrainer: () => createRandomTrainer(),
   },
 };

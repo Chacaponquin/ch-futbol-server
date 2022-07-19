@@ -1,10 +1,11 @@
 import { gql } from "apollo-server-core";
 import { createTeam } from "../../helpers/tasks/teams/createTeam.js";
 
-export const teamSchema = gql `
+export const teamSchema = gql`
   input TeamInput {
     name: String!
     league: String!
+    owner: ID!
   }
 
   type Team {
@@ -17,7 +18,7 @@ export const teamSchema = gql `
 `;
 
 export const teamResolver = {
-    Mutation: {
-        createTeam: (root, args) => createTeam(args),
-    },
+  Mutation: {
+    createTeam: (root, args) => createTeam(args.team),
+  },
 };

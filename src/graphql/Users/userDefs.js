@@ -31,7 +31,7 @@ export const userSchema = gql`
 
   type Query {
     allUsers: [User]!
-    getUserByToken(token: String!): User!
+    getUserByToken(token: String): User!
     loginUser(user: LoginUserInput!): User!
   }
 

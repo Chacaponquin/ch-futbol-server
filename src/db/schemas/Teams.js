@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const seasonRecordSchema = new mongoose.Schema({
+  createdBy: {
+    type: mongoose.SchemaTypes.ObjectId,
+    required: true,
+    ref: "User",
+  },
   yearStart: { type: Number, required: true },
   yearFinish: { type: Number, required: true },
   goals: { type: Number, min: 0, default: 0 },

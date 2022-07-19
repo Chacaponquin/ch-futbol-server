@@ -17,7 +17,6 @@ export const createRandomMessage = async ({ from, to }) => {
 
     return newMessage;
   } catch (error) {
-    console.log(error);
     throw new HttpQueryError(500, "Hubo un error en la creacion del mensaje");
   }
 };

@@ -96,9 +96,15 @@ const playerSchema = new mongoose.Schema(
     seasonRecords: { type: [seasonRecordSchema], default: [] },
 
     messages: {
-      type: [mongoose.SchemaTypes.ObjectId],
+      type: [mongoose.Types.ObjectId],
       ref: "Message",
       default: [],
+    },
+
+    offerts: {
+      type: [mongoose.Types.ObjectId],
+      default: [],
+      ref: "PlayerOffert",
     },
   },
   { timestamps: { createdAt: "create_at" } }

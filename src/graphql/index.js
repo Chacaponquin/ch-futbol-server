@@ -1,6 +1,11 @@
 import { blogResolver, blogSchema } from "./Blog/blogDefs.js";
+import {
+  extraQuerysResolvers,
+  extraQuerysSchema,
+} from "./ExtraQuerys/extraQuerys.js";
 import { leagueResolvers, leagueSchema } from "./Leagues/leagueDefs.js";
 import { messageResolvers, messageSchema } from "./Messages/messageDefs.js";
+import { offertsResolvers, offertsSchema } from "./Offerts/offertsDefs.js";
 import { playerResolver, playerSchema } from "./Players/playerDefs.js";
 import { teamResolver, teamSchema } from "./Teams/teamsDefs.js";
 import { trainerResolvers, trainerSchema } from "./Trainer/trainerDefs.js";
@@ -14,6 +19,8 @@ export const typeDefs = [
   blogSchema,
   trainerSchema,
   messageSchema,
+  extraQuerysSchema,
+  offertsSchema,
 ];
 export const resolvers = [
   userResolvers,
@@ -23,4 +30,6 @@ export const resolvers = [
   blogResolver,
   trainerResolvers,
   messageResolvers,
+  extraQuerysResolvers,
+  offertsResolvers,
 ];
