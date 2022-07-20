@@ -9,6 +9,7 @@ const teamRecordSchema = new mongoose.Schema({
 
 const trainerSchema = new mongoose.Schema(
   {
+    createdBy: { type: mongoose.Types.ObjectId, ref: "User", required: true },
     firstName: { type: String, required: true, maxlength: 50 },
     lastName: { type: String, required: true, maxlength: 50 },
     birthDate: { type: Date, required: true },

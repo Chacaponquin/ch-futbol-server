@@ -16,6 +16,7 @@ export const trainerSchema = gql`
     image: String!
     country: String!
     gender: Gender!
+    createdBy: ID!
   }
 
   type Trainer {

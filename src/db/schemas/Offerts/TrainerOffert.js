@@ -14,6 +14,7 @@ const playerOffert = new mongoose.Schema({
     default: [],
     ref: "TrainerOffert",
   },
+  team: { type: mongoose.Types.ObjectId, required: true, ref: "Team" },
 });
 
 export default mongoose.model("TrainerOffert", playerOffert);

@@ -28,6 +28,7 @@ export const playerSchema = gql`
     country: String!
     gender: String!
     imageUrl: String!
+    createdBy: ID!
   }
 
   input FetchOwnPlayersInput {

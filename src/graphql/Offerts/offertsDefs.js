@@ -9,9 +9,10 @@ export const offertsSchema = gql`
 
   input CreateOffertInput {
     owner: ID!
-    to: ID!
+    to: [ID]!
     salary: Float
     mount: Float
+    team: ID!
     type: TypeOffert!
   }
 
@@ -20,6 +21,7 @@ export const offertsSchema = gql`
     owner: User!
     accepted: Boolean!
     salary: Float!
+    team: Team!
   }
 
   type PlayerOffert implements Offert {
@@ -29,6 +31,7 @@ export const offertsSchema = gql`
     salary: Float!
     player: Player!
     mount: Float!
+    team: Team!
   }
 
   type TrainerOffert implements Offert {
@@ -37,10 +40,11 @@ export const offertsSchema = gql`
     accepted: Boolean!
     salary: Float!
     trainer: Trainer!
+    team: Team!
   }
 
   type Mutation {
-    createOffert(offert: CreateOffertInput!): ID!
+    createOffert(offert: CreateOffertInput!): [ID]!
   }
 `;
 

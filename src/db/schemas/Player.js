@@ -56,7 +56,7 @@ const playerSchema = new mongoose.Schema(
   {
     createdBy: {
       type: mongoose.SchemaTypes.ObjectId,
-      default: null,
+      required: true,
       ref: "User",
     },
     firstName: { type: String, required: true, maxlength: 50 },
