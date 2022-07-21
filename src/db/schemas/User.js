@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     image: { type: String, required: true },
     role: {
       type: String,
@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
       enum: Object.values(userCategorys),
     },
     messages: {
-      type: [mongoose.SchemaTypes.ObjectId],
+      type: [mongoose.Types.ObjectId],
       ref: "Message",
       default: [],
     },

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { AuthenticationError, HttpQueryError } from "apollo-server-core";
+import { HttpQueryError } from "apollo-server-core";
 import User from "../../../db/schemas/User.js";
 
 export const getUserByToken = async (token) => {

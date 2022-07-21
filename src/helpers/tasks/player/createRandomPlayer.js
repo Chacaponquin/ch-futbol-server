@@ -1,8 +1,10 @@
 import { faker } from "@faker-js/faker";
 import { AuthenticationError } from "apollo-server-core";
 import Player from "../../../db/schemas/Player.js";
+import User from "../../../db/schemas/User.js";
 import { countryList } from "../../allCountries.js";
 import { playerPositions } from "../../playerPositions.js";
+import { userCategorys } from "../../userRoles.js";
 
 // FUNCION PARA CREAR LA MEDIA DE CADA AÑO DEL JUGADOR
 const getMediaData = (yearStart, seasonPlayed) => {
@@ -87,20 +89,24 @@ export const createRandomPlayer = async () => {
   const [socialMedia, seasonData, mediaData, priceData] =
     generateRandomData(yearStart);
 
+  const createdBy = await User.findOne({ category: userCategorys.MANAGER });
+
   const newPlayer = new Player({
+    createdBy: createdBy._id,
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     birthDate,
     image: faker.image.avatar(),
     salary: faker.datatype.number({ min: 500, max: 3000000 }),
     gender: "MALE",
-    country: faker.address.country(),
+    country: countryList[Math.floor(Math.random() * countryList.length)],
     mediaRecord: mediaData,
     seasonRecords: seasonData,
     socialMedia: socialMedia,
     playerPrice: priceData,
     // TODO: dorsalRecord,
-    position: countryList[Math.floor(Math.random() * countryList.length)],
+    position:
+      playerPositions[Math.floor(Math.random() * playerPositions.length)],
   });
 
   try {
@@ -108,8 +114,7 @@ export const createRandomPlayer = async () => {
 
     return newPlayer;
   } catch (error) {
-    if (error.name === "ValidationError")
-      throw new AuthenticationError(error.errors["country"]);
-    else throw new AuthenticationError("No se ha podido crear el jugador");
+    console.log(error);
+    throw new AuthenticationError("No se ha podido crear el jugador");
   }
 };

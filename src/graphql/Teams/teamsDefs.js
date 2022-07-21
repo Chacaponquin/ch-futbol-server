@@ -10,6 +10,9 @@ export const teamSchema = gql`
 
   type Team {
     _id: ID!
+    league: String!
+    foundationYear: Int!
+    name: String!
   }
 
   type Mutation {

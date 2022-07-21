@@ -20,7 +20,7 @@ const trainerSchema = new mongoose.Schema(
     socialMedia: { type: mongoose.SchemaTypes.Mixed, default: {} },
     teamsRecord: { type: [teamRecordSchema], default: [] },
     messages: {
-      type: [mongoose.SchemaTypes.ObjectId],
+      type: [mongoose.Types.ObjectId],
       ref: "Message",
       default: [],
     },

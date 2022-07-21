@@ -55,7 +55,7 @@ const seasonRecordSchema = new mongoose.Schema({
 const playerSchema = new mongoose.Schema(
   {
     createdBy: {
-      type: mongoose.SchemaTypes.ObjectId,
+      type: mongoose.Types.ObjectId,
       required: true,
       ref: "User",
     },

@@ -14,7 +14,7 @@ export const playerSchema = gql`
   }
 
   input TransferPlayerInput {
-    teamFrom: String
+    teamFrom: String!
     teamTo: String!
     player: String!
     price: Int
@@ -36,39 +36,39 @@ export const playerSchema = gql`
   }
 
   input DeletePlayerInput {
-    players: [ID]!
+    players: [ID!]!
   }
 
   type PlayerTeam {
-    image: String
-    name: String
+    image: String!
+    name: String!
   }
 
   type PlayerSeasonRecord {
-    yearStart: Int
+    yearStart: Int!
     yearFinish: Int
-    minutes: Int
-    assists: Int
-    matchPlayed: Int
-    goals: Int
+    minutes: Int!
+    assists: Int!
+    matchPlayed: Int!
+    goals: Int!
   }
 
   type PlayerTotalStats {
-    totalGoals: Int
-    totalAssists: Int
+    totalGoals: Int!
+    totalAssists: Int!
   }
 
   type Player {
-    _id: ID
-    image: String
-    fullName: String
-    country: String
-    gender: String
-    position: String
-    age: Int
-    actualTeamInf: PlayerTeam
-    actualPrice: Float
-    totalStats: PlayerTotalStats
+    _id: ID!
+    image: String!
+    fullName: String!
+    country: String!
+    gender: Gender!
+    position: String!
+    age: Int!
+    actualTeamInf: PlayerTeam!
+    actualPrice: Float!
+    totalStats: PlayerTotalStats!
     seasonRecords: [PlayerSeasonRecord]!
   }
 

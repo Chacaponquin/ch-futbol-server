@@ -2,8 +2,15 @@ import { gql } from "apollo-server-core";
 import { createUser } from "../../helpers/tasks/users/createUser.js";
 import { getUserByToken } from "../../helpers/tasks/users/getUserByToken.js";
 import { loginUser } from "../../helpers/tasks/users/loginUser.js";
+import { userRoles } from "../../helpers/userRoles.js";
 
 export const userSchema = gql`
+  union OwnerElement = Player | Team | Trainer
+
+  enum UserRoles{
+    ${Object.values(userRoles)}
+  }
+
   input LoginUserInput {
     email: String!
     password: String!
@@ -27,6 +34,7 @@ export const userSchema = gql`
     role: String!
     category: String!
     isAdmin: Boolean!
+    elementOwner: OwnerElement
   }
 
   type Query {

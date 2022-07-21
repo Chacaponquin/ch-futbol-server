@@ -37,8 +37,8 @@ const teamSchema = new mongoose.Schema({
     max: 500000000,
   },
   league: {
-    type: mongoose.SchemaTypes.ObjectId,
-    default: null,
+    type: mongoose.Types.ObjectId,
+    required: true,
     ref: "League",
   },
   color: {
@@ -53,7 +53,7 @@ const teamSchema = new mongoose.Schema({
   },
   seasonRecord: { type: [seasonRecordSchema], default: [] },
   messages: {
-    type: [mongoose.SchemaTypes.ObjectId],
+    type: [mongoose.Types.ObjectId],
     ref: "Message",
     default: [],
   },

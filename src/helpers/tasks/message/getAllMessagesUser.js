@@ -1,21 +1,29 @@
 import { HttpQueryError } from "apollo-server-core";
-import User from "../../../db/schemas/User.js";
+import schemas from "../../../db/schemas.js";
+import { filterType } from "../../messageReceptor.js";
 
-export const getAllMessagesUser = async (userID) => {
+export const getAllMessagesUser = async ({ id, type }) => {
   try {
-    const userFound = await User.findById(userID).populate("messages");
+    const model = filterType(type);
 
-    let returnMessages = [];
-    if (userFound) {
-      for (let i = 0; i < userFound.messages.length; i++) {
-        const completeMessage = await userFound.messages[i].populate("to from");
-        if (completeMessage) returnMessages.push(completeMessage);
-      }
+    if (model) {
+      const elementFound = await schemas[model]
+        .findById(id)
+        .populate("messages");
 
-      return returnMessages;
-    } else throw new Error("No existe este usuario");
+      let returnMessages = [];
+      if (elementFound) {
+        for (let i = 0; i < elementFound.messages.length; i++) {
+          const completeMessage = await elementFound.messages[i].populate(
+            "to from"
+          );
+          if (completeMessage) returnMessages.push(completeMessage);
+        }
+
+        return returnMessages;
+      } else throw new Error("No existe este usuario");
+    } else throw new Error("El tipo insertado no es válido");
   } catch (error) {
-    console.log(error);
-    throw new HttpQueryError(404, "Hubo un error");
+    throw new HttpQueryError(404, error.message);
   }
 };
