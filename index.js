@@ -10,7 +10,7 @@ import {
 import jwt from "jsonwebtoken";
 import { typeDefs, resolvers } from "./src/graphql/index.js";
 import fileUpload from "express-fileupload";
-
+import User from "./src/db/schemas/User.js";
 import rootRoutes from "./src/routes/routes.js";
 
 import "./src/db/mongo.js";
@@ -40,17 +40,23 @@ async function startApolloServer(typeDefs, resolvers) {
       ApolloServerPluginDrainHttpServer({ httpServer }),
       ApolloServerPluginLandingPageGraphQLPlayground({ title: "Perfect Api" }),
     ],
-    context: ({ req }) => {
+    context: async ({ req }) => {
       const auth = req ? req.headers.authorization : null;
 
       if (auth && auth.toLowerCase().startsWith("bearer ")) {
         const token = auth.substring(7);
 
         try {
-          const user = jwt.verify(token, process.env.SECRET_WORD);
-          return { currentUser: user };
+          if (token) {
+            const user = jwt.verify(token, process.env.SECRET_WORD);
+
+            const currentUser = await User.findById(user.id);
+            return { currentUser };
+          } else return { currentUser: null };
         } catch (error) {
-          return {};
+          if (error instanceof jwt.TokenExpiredError)
+            throw new HttpQueryError(401, "El token ha expirado");
+          else return { currentUser: null };
         }
       }
     },

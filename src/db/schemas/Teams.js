@@ -1,34 +1,35 @@
 import mongoose from "mongoose";
 
 const seasonRecordSchema = new mongoose.Schema({
-  createdBy: {
-    type: mongoose.SchemaTypes.ObjectId,
-    required: true,
-    ref: "User",
-  },
   yearStart: { type: Number, required: true },
   yearFinish: { type: Number, required: true },
   goals: { type: Number, min: 0, default: 0 },
   assists: { type: Number, default: 0, min: 0 },
   players: {
-    type: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Player" }],
+    type: [{ type: mongoose.Types.ObjectId, ref: "Player" }],
     maxlength: 25,
     minlength: 15,
   },
   trainer: {
-    type: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Trainer" }],
+    type: [{ type: mongoose.Types.ObjectId, ref: "Trainer" }],
     maxlength: 5,
     minlength: 1,
   },
 });
 
 const teamSchema = new mongoose.Schema({
+  createdBy: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: "User",
+  },
   name: { type: String, required: true, maxlength: 30, unique: true },
   image: { type: String, required: true },
   fundationYear: {
     type: Number,
     required: true,
     max: new Date().getFullYear(),
+    min: 1700,
   },
   budget: {
     type: mongoose.SchemaTypes.Number,
@@ -57,6 +58,23 @@ const teamSchema = new mongoose.Schema({
     ref: "Message",
     default: [],
   },
+});
+
+teamSchema.virtual("actualTeam").get(function () {
+  const finalPos = this.seasonRecord.length - 1;
+
+  if (this.seasonRecord.length === 0) return null;
+  else
+    return {
+      players: this.seasonRecord[finalPos].players,
+      trainer: this.seasonRecord[finalPos].trainer,
+    };
+});
+
+teamSchema.virtual("peopleToSendMessage").get(function () {
+  console.log(this.actualTeam);
+
+  return null;
 });
 
 export default mongoose.model("Team", teamSchema);

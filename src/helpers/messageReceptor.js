@@ -14,7 +14,7 @@ export const filterType = (type) => {
   if (type == userRoles.PLAYER) returnObj = messageReceptors.PLAYER;
   else if (type == userRoles.CLUB_OWNER) returnObj = messageReceptors.USER;
   else if (type == userRoles.TRAINER) returnObj = messageReceptors.TRAINER;
-  else if (type == messageReceptors.USER) returnObj = messageReceptors.USER;
+  else returnObj = messageReceptors.USER;
 
   return returnObj;
 };

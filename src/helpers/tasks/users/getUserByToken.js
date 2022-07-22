@@ -1,21 +1,12 @@
-import jwt from "jsonwebtoken";
 import { HttpQueryError } from "apollo-server-core";
-import User from "../../../db/schemas/User.js";
+import { returnUserConstructor } from "../../returnUserConstructor.js";
 
-export const getUserByToken = async (token) => {
+export const getUserByToken = async ({ currentUser }) => {
   try {
-    if (token) {
-      const user = jwt.verify(token, process.env.SECRET_WORD);
-      const userFound = await User.findOne({ _id: user.id });
-
-      if (!userFound) throw new HttpQueryError(404, "Token incorrecto");
-      else return userFound;
-    } else throw new HttpQueryError(400, "No se ha pasado un token");
+    if (currentUser) return await returnUserConstructor(currentUser);
+    else throw new Error("No existe ese usuario");
   } catch (error) {
-    if (error instanceof jwt.TokenExpiredError)
-      throw new HttpQueryError(401, "El token ha expirado");
-    else {
-      throw error;
-    }
+    console.log(error);
+    throw new HttpQueryError(400, "No existe ese usuario");
   }
 };

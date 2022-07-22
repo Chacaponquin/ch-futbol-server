@@ -6,6 +6,7 @@ import { createMessage } from "../../helpers/tasks/message/createMessage.js";
 import { createRandomMessage } from "../../helpers/tasks/message/createRandomMessage.js";
 import { deleteMessages } from "../../helpers/tasks/message/deleteMessages.js";
 import { getAllMessagesUser } from "../../helpers/tasks/message/getAllMessagesUser.js";
+import { getPeopleToSendMessage } from "../../helpers/tasks/message/getPeopleToSendMessage.js";
 
 export const messageSchema = gql`
   union OwnerElement = Player | Team | Trainer | User
@@ -31,7 +32,6 @@ export const messageSchema = gql`
 
   input CreateMessageInput {
     content: String!
-    from: ElementInput!
     to: ElementInput!
     title: String!
   }
@@ -45,7 +45,8 @@ export const messageSchema = gql`
   }
 
   type Query {
-    getAllMessagesUser(element: ElementInput!): [Message]!
+    getAllMessagesUser: [Message]!
+    getPeopleToSendMessage(elementID: ID): [OwnerElement]!
   }
 
   type Mutation {
@@ -57,12 +58,16 @@ export const messageSchema = gql`
 
 export const messageResolvers = {
   Query: {
-    getAllMessagesUser: (root, args) => getAllMessagesUser(args.element),
+    getAllMessagesUser: (root, args, { currentUser }) =>
+      getAllMessagesUser(currentUser),
+    getPeopleToSendMessage: (root, { elementID }, { currentUser }) =>
+      getPeopleToSendMessage(elementID, currentUser),
   },
   Mutation: {
     createRandomMessage: (root, args) => createRandomMessage(args.message),
     deleteMessages: (root, args) => deleteMessages(args.messagesInf),
-    createMessage: (root, args) => createMessage(args.message),
+    createMessage: (root, args, context) =>
+      createMessage(args.message, context.currentUser),
   },
   OwnerElement: {
     __resolveType: (obj) => {

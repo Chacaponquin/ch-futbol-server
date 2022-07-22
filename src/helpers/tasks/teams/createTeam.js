@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import { ApolloError } from "apollo-server-core";
 import League from "../../../db/schemas/League.js";
 
-export const createTeam = async ({ name, league, owner }) => {
+export const createTeam = async ({ name, league }, { _id }) => {
   const dtPast = new Date();
   dtPast.setFullYear(dtPast.getFullYear() - 150);
   const dtNow = new Date();
@@ -11,7 +11,7 @@ export const createTeam = async ({ name, league, owner }) => {
 
   const newTeam = new Teams({
     // TODO: BUSCAR NOMBRES DE EQUIPOS REALES
-    createdBy: owner,
+    createdBy: _id,
     name,
     image: faker.image.sports(300, 300),
     fundationYear: faker.date.between(dtPast, dtNow).getFullYear(),

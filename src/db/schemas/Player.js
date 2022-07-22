@@ -118,6 +118,12 @@ playerSchema.virtual("actualTeam").get(function () {
   else return this.teamsRecord[finalPos].team;
 });
 
+playerSchema.virtual("peopleToSendMessage").get(function () {
+  console.log(this.actualTeam);
+
+  return null;
+});
+
 // VIRTUAL CON EL NOMBRE COMPLETO
 playerSchema.virtual("fullName").get(function () {
   return `${this.firstName} ${this.lastName}`;

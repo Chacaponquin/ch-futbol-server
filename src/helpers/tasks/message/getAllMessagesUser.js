@@ -2,13 +2,14 @@ import { HttpQueryError } from "apollo-server-core";
 import schemas from "../../../db/schemas.js";
 import { filterType } from "../../messageReceptor.js";
 
-export const getAllMessagesUser = async ({ id, type }) => {
+//TODO: ARREGLAR LA DIFERENCIA ENTRE MENSAJES DE USUARIOS Y MENSAJE DE JUGADORES
+export const getAllMessagesUser = async ({ _id, role }) => {
   try {
-    const model = filterType(type);
+    const model = filterType(role);
 
     if (model) {
       const elementFound = await schemas[model]
-        .findById(id)
+        .findById(_id)
         .populate("messages");
 
       let returnMessages = [];

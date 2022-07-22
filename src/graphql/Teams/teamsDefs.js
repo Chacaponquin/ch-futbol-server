@@ -5,7 +5,6 @@ export const teamSchema = gql`
   input TeamInput {
     name: String!
     league: String!
-    owner: ID!
   }
 
   type Team {
@@ -22,6 +21,7 @@ export const teamSchema = gql`
 
 export const teamResolver = {
   Mutation: {
-    createTeam: (root, args) => createTeam(args.team),
+    createTeam: (root, args, context) =>
+      createTeam(args.team, context.currentUser),
   },
 };

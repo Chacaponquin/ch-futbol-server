@@ -3,21 +3,15 @@ import Player from "../../../db/schemas/Player.js";
 import User from "../../../db/schemas/User.js";
 import { userCategorys } from "../../userRoles.js";
 
-export const createPlayer = async ({
-  birth,
-  pos,
-  firstName,
-  lastName,
-  country,
-  gender,
-  imageUrl,
-  createdBy,
-}) => {
+export const createPlayer = async (
+  { birth, pos, firstName, lastName, country, gender, imageUrl },
+  { _id }
+) => {
   try {
     await validateNoRepeatPlayer(createdBy);
 
     const newPlayer = new Player({
-      createdBy,
+      createdBy: _id,
       firstName,
       lastName,
       country,
@@ -31,7 +25,10 @@ export const createPlayer = async ({
 
     return newPlayer._id;
   } catch (error) {
-    throw new HttpQueryError(500, error.message);
+    console.log(error);
+    if (error.name === "MongoServerError")
+      throw new HttpQueryError(504, "Ya existe ese usuario");
+    else throw new HttpQueryError(500, error.message);
   }
 };
 

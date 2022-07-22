@@ -26,8 +26,9 @@ export const createUser = async ({
   });
 
   try {
-    return registerToken(newUser);
+    return await registerToken(newUser);
   } catch (error) {
+    console.log(error);
     if (error.name === "MongoServerError")
       throw new ValidationError("Ya existe ese usuario");
     else throw new ValidationError("Hubo un error");

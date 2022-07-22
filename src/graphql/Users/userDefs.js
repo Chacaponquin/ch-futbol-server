@@ -28,13 +28,12 @@ export const userSchema = gql`
     _id: ID
     token: String!
     username: String!
-    password: String!
     email: String!
     image: String!
     role: String!
     category: String!
     isAdmin: Boolean!
-    elementOwner: OwnerElement
+    elementsOwner: [OwnerElement]!
   }
 
   type Query {
@@ -51,7 +50,7 @@ export const userSchema = gql`
 export const userResolvers = {
   Query: {
     allUsers: () => [],
-    getUserByToken: (root, args) => getUserByToken(args.token),
+    getUserByToken: (root, args, context) => getUserByToken(context),
     loginUser: (root, args) => loginUser(args.user),
   },
 

@@ -28,7 +28,6 @@ export const playerSchema = gql`
     country: String!
     gender: String!
     imageUrl: String!
-    createdBy: ID!
   }
 
   input FetchOwnPlayersInput {
@@ -94,7 +93,8 @@ export const playerResolver = {
   },
   Mutation: {
     createRandomPlayer: () => createRandomPlayer(),
-    createPlayer: (root, args) => createPlayer(args.player),
+    createPlayer: (root, args, context) =>
+      createPlayer(args.player, context.currentUser),
     transferPlayer: (root, args) => transferPlayer(args.data),
     deletePlayer: (root, args) => deletePlayer(args.players),
   },
