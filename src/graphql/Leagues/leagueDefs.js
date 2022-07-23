@@ -4,9 +4,10 @@ import { findAvailibleLeagues } from "../../helpers/tasks/league/findAvailibleLe
 import { getAllLeagues } from "../../helpers/tasks/league/getAllLeagues.js";
 
 export const leagueSchema = gql`
-  input LeagueInput {
-    name: String
-    country: String
+  input CreateLeagueInput {
+    name: String!
+    country: String!
+    teamMax: Int!
   }
 
   type League {
@@ -20,7 +21,7 @@ export const leagueSchema = gql`
   }
 
   type Mutation {
-    createLeague(league: LeagueInput): League!
+    createLeague(league: CreateLeagueInput!): ID!
   }
 `;
 
@@ -30,6 +31,6 @@ export const leagueResolvers = {
     getAllLeagues: () => getAllLeagues(),
   },
   Mutation: {
-    createLeague: (root, args) => createLeague(args),
+    createLeague: (root, args, context) => createLeague(args.league, context),
   },
 };

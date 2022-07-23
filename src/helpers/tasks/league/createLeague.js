@@ -1,19 +1,23 @@
 import League from "../../../db/schemas/League.js";
-import { AuthenticationError } from "apollo-server-core";
+import { validateIsAdmin } from "../../validateIsAdmin.js";
 
-export const createLeague = async({ league }) => {
-    const { name, country } = league;
+export const createLeague = async (
+  { name, country, teamMax },
+  { currentUser }
+) => {
+  try {
+    validateIsAdmin(currentUser);
 
     const newLeague = new League({
-        name,
-        country,
+      name,
+      country,
+      maxCantTeams: teamMax,
     });
 
-    try {
-        await newLeague.save();
+    await newLeague.save();
 
-        return newLeague;
-    } catch (error) {
-        throw new AuthenticationError(error);
-    }
+    return newLeague._id;
+  } catch (error) {
+    throw error;
+  }
 };
