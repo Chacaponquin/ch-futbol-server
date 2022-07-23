@@ -3,10 +3,11 @@ import { HttpQueryError } from "apollo-server-core";
 
 export const findAvailibleLeagues = async () => {
   try {
-    return await (
-      await League.find()
-    ).filter((el) => el.availibleForTeams === true);
+    return await League.find({ availibleForTeams: true });
   } catch (error) {
-    throw new HttpQueryError(500, "Hubo un error en la busqueda de ligas");
+    throw new HttpQueryError(
+      500,
+      "Hubo un error en la busqueda de ligas disponibles"
+    );
   }
 };

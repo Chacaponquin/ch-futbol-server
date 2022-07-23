@@ -1,8 +1,9 @@
 import { gql } from "apollo-server-core";
 import { createLeague } from "../../helpers/tasks/league/createLeague.js";
 import { findAvailibleLeagues } from "../../helpers/tasks/league/findAvailibleLeagues.js";
+import { getAllLeagues } from "../../helpers/tasks/league/getAllLeagues.js";
 
-export const leagueSchema = gql `
+export const leagueSchema = gql`
   input LeagueInput {
     name: String
     country: String
@@ -14,7 +15,8 @@ export const leagueSchema = gql `
   }
 
   type Query {
-    findAvailibleLeagues: [League]
+    findAvailibleLeagues: [League]!
+    getAllLeagues: [League]!
   }
 
   type Mutation {
@@ -23,10 +25,11 @@ export const leagueSchema = gql `
 `;
 
 export const leagueResolvers = {
-    Query: {
-        findAvailibleLeagues: () => findAvailibleLeagues(),
-    },
-    Mutation: {
-        createLeague: (root, args) => createLeague(args),
-    },
+  Query: {
+    findAvailibleLeagues: () => findAvailibleLeagues(),
+    getAllLeagues: () => getAllLeagues(),
+  },
+  Mutation: {
+    createLeague: (root, args) => createLeague(args),
+  },
 };

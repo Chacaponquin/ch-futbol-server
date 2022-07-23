@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 import { messageReceptors } from "../../helpers/messageReceptor.js";
 
+const replySchema = new mongoose.Schema({
+  content: { type: String, required: true },
+});
+
 const messageSchema = new mongoose.Schema(
   {
     content: { type: String, required: true, minlength: 5 },
@@ -21,6 +25,7 @@ const messageSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
+    replys: { type: [replySchema], default: [] },
   },
   { timestamps: { createdAt: "create_at" } }
 );

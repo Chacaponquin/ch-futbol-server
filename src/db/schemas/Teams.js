@@ -54,11 +54,13 @@ const teamSchema = new mongoose.Schema({
   },
   seasonRecord: { type: [seasonRecordSchema], default: [] },
   messages: {
-    type: [mongoose.Types.ObjectId],
-    ref: "Message",
+    type: [{ type: mongoose.Types.ObjectId, ref: "Message" }],
     default: [],
   },
 });
+
+teamSchema.set("toObject", { virtuals: true });
+teamSchema.set("toJSON", { virtuals: true });
 
 teamSchema.virtual("actualTeam").get(function () {
   const finalPos = this.seasonRecord.length - 1;

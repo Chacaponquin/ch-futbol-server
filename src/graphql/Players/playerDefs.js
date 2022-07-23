@@ -13,6 +13,11 @@ export const playerSchema = gql`
     FEMALE
   }
 
+  input PlayerFilterInput {
+    name: String
+    league: String
+  }
+
   input TransferPlayerInput {
     teamFrom: String!
     teamTo: String!
@@ -32,10 +37,6 @@ export const playerSchema = gql`
 
   input FetchOwnPlayersInput {
     teamID: ID!
-  }
-
-  input DeletePlayerInput {
-    players: [ID!]!
   }
 
   type PlayerTeam {
@@ -74,14 +75,14 @@ export const playerSchema = gql`
   type Query {
     findFreePlayers: [Player]!
     fetchOwnPlayers(team: FetchOwnPlayersInput!): [Player]!
-    fetchAllPlayers: [Player]!
+    fetchAllPlayers(playerFilter: PlayerFilterInput): [Player]!
   }
 
   type Mutation {
     createRandomPlayer: Player!
     transferPlayer(data: TransferPlayerInput!): ID!
     createPlayer(player: PlayerInput!): ID!
-    deletePlayer(players: DeletePlayerInput!): ID!
+    deletePlayer(players: [ID]!): ID!
   }
 `;
 
@@ -89,7 +90,7 @@ export const playerResolver = {
   Query: {
     findFreePlayers: () => findFreePlayers(),
     fetchOwnPlayers: (root, args) => fetchOwnPlayers(args.team),
-    fetchAllPlayers: () => fetchAllPlayers(),
+    fetchAllPlayers: (root, args) => fetchAllPlayers(args.playerFilter),
   },
   Mutation: {
     createRandomPlayer: () => createRandomPlayer(),

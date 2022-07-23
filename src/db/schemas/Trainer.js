@@ -20,13 +20,15 @@ const trainerSchema = new mongoose.Schema(
     socialMedia: { type: mongoose.SchemaTypes.Mixed, default: {} },
     teamsRecord: { type: [teamRecordSchema], default: [] },
     messages: {
-      type: [mongoose.Types.ObjectId],
-      ref: "Message",
+      type: [{ type: mongoose.Types.ObjectId, ref: "Message" }],
       default: [],
     },
   },
   { timestamps: { createdAt: "create_at" } }
 );
+
+trainerSchema.set("toObject", { virtuals: true });
+trainerSchema.set("toJSON", { virtuals: true });
 
 //VIRTUAL PARA OBTENER EL NOMBRE COMPLETO
 trainerSchema.virtual("fullName").get(function () {

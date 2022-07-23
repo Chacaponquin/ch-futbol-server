@@ -7,7 +7,7 @@ const priceRecordSchema = new mongoose.Schema({
   price: {
     type: [
       {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         required: true,
         min: 30000,
         max: 400000000,
@@ -21,10 +21,11 @@ const priceRecordSchema = new mongoose.Schema({
 const teamRecordSchema = new mongoose.Schema({
   yearStart: { type: Number, required: true },
   yearFinish: { type: Number, default: null },
-  team: { type: mongoose.SchemaTypes.ObjectId, ref: "Team" },
+  team: { type: mongoose.Types.ObjectId, ref: "Team", required: true },
   transferID: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: "Transfer",
+    required: true,
   },
 });
 
@@ -110,13 +111,22 @@ const playerSchema = new mongoose.Schema(
   { timestamps: { createdAt: "create_at" } }
 );
 
-// VIRTUAL PARA VER EL EQUIPO ACTUAL DEL JUGADOR
-playerSchema.virtual("actualTeam").get(function () {
-  const finalPos = this.teamsRecord.length - 1;
+playerSchema.set("toObject", { virtuals: true });
+playerSchema.set("toJSON", { virtuals: true });
 
-  if (this.teamsRecord.length === 0) return null;
-  else return this.teamsRecord[finalPos].team;
-});
+// VIRTUAL PARA VER EL EQUIPO ACTUAL DEL JUGADOR
+playerSchema
+  .virtual("actualTeam", {
+    ref: "Team",
+    localField: "actualTeam",
+    foreignField: "_id",
+  })
+  .get(function () {
+    const finalPos = this.teamsRecord.length - 1;
+
+    if (this.teamsRecord.length === 0) return null;
+    else return this.teamsRecord[finalPos].team;
+  });
 
 playerSchema.virtual("peopleToSendMessage").get(function () {
   console.log(this.actualTeam);

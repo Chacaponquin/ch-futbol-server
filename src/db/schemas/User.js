@@ -22,8 +22,7 @@ const userSchema = new mongoose.Schema(
       enum: Object.values(userCategorys),
     },
     messages: {
-      type: [mongoose.Types.ObjectId],
-      ref: "Message",
+      type: [{ type: mongoose.Types.ObjectId, ref: "Message" }],
       default: [],
     },
   },
