@@ -12,6 +12,7 @@ export const teamSchema = gql`
     league: String!
     foundationYear: Int!
     name: String!
+    image: String!
   }
 
   type Mutation {

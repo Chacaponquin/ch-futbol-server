@@ -22,7 +22,7 @@ const teamRecordSchema = new mongoose.Schema({
   yearStart: { type: Number, required: true },
   yearFinish: { type: Number, default: null },
   team: { type: mongoose.Types.ObjectId, ref: "Team", required: true },
-  transferID: {
+  transfer: {
     type: mongoose.Types.ObjectId,
     ref: "Transfer",
     required: true,
@@ -128,10 +128,8 @@ playerSchema
     else return this.teamsRecord[finalPos].team;
   });
 
-playerSchema.virtual("peopleToSendMessage").get(function () {
+playerSchema.method("peopleToSendMessage", function () {
   console.log(this.actualTeam);
-
-  return null;
 });
 
 // VIRTUAL CON EL NOMBRE COMPLETO

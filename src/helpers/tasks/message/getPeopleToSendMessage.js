@@ -2,18 +2,15 @@ import { HttpQueryError } from "apollo-server-core";
 import Player from "../../../db/schemas/Player.js";
 import Team from "../../../db/schemas/Teams.js";
 import Trainer from "../../../db/schemas/Trainer.js";
-import { getAllManagerElements } from "../../getAllManagerElements.js";
 import { userRoles } from "../../userRoles.js";
+import User from "../../../db/schemas/User.js";
 
-export const getPeopleToSendMessage = async (
-  elementID,
-  { _id, role, isAdmin }
-) => {
+export const getPeopleToSendMessage = async (elementID, currentUser) => {
   try {
-    if (isAdmin && !elementID) {
-      const elementsOwner = await getAllManagerElements(_id);
+    if (!elementID) {
+      const people = await currentUser.peopleToSendMessage();
 
-      return elementsOwner;
+      return people;
     } else if (elementID) {
       let element = null;
 
@@ -26,11 +23,12 @@ export const getPeopleToSendMessage = async (
       }
 
       if (element) {
-        console.log(element.peopleToSendMessage);
+        const people = await element.peopleToSendMessage();
+
+        return people;
       } else throw new Error("No existe ese elemento");
     } else throw new Error("Error en el paso de parametros");
   } catch (error) {
-    console.log(error);
-    throw new HttpQueryError(500, "Hubo un error");
+    throw new HttpQueryError(500, error.message);
   }
 };

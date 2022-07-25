@@ -35,10 +35,8 @@ trainerSchema.virtual("fullName").get(function () {
   return `${this.firstName} ${this.lastName}`;
 });
 
-trainerSchema.virtual("peopleToSendMessage").get(function () {
+trainerSchema.method("peopleToSendMessage", function () {
   console.log(this.actualTeam);
-
-  return null;
 });
 
 // VIRTUAL CON LA EDAD DEL ENTRENADOR

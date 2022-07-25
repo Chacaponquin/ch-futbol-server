@@ -73,10 +73,8 @@ teamSchema.virtual("actualTeam").get(function () {
     };
 });
 
-teamSchema.virtual("peopleToSendMessage").get(function () {
+teamSchema.method('peopleToSendMessage', function(){
   console.log(this.actualTeam);
-
-  return null;
-});
+})
 
 export default mongoose.model("Team", teamSchema);

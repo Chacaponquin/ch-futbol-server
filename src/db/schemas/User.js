@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import { userRoles, userCategorys } from "../../helpers/userRoles.js";
+import Player from "./Player.js";
+import Team from "./Teams.js";
+import Trainer from "./Trainer.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -28,6 +31,24 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: { createdAt: "create_at" } }
 );
+
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJSON", { virtuals: true });
+
+userSchema.method("elementsOwner", function () {
+  if (this.role == userRoles.MANAGER) return [];
+  else if (this.role == userRoles.PLAYER) {
+    return Player.find({ createdBy: this._id });
+  } else if (this.role == userRoles.CLUB_OWNER) {
+    return Team.find({ createdBy: this._id });
+  } else if (this.role == userRoles.TRAINER) {
+    return Trainer.find({ createdBy: this._id });
+  }
+});
+
+userSchema.method("peopleToSendMessage", function () {
+  return mongoose.model("User").find({ _id: { $ne: this._id } });
+});
 
 userSchema.virtual("isAdmin").get(function () {
   return !(this.category == userCategorys.CURRENT_USER);
