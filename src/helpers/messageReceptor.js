@@ -7,7 +7,7 @@ export const messageReceptors = {
   PLAYER: "Player",
 };
 
-//FUNCION PARA DEVILVER EL MODELO DE REFERIA PARA LAS BUSQUEDAS
+//FUNCION PARA DEVOLVER EL MODELO DE REFERIA PARA LAS BUSQUEDAS
 export const filterType = (type) => {
   let returnObj = null;
 

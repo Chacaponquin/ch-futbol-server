@@ -1,9 +1,26 @@
 import mongoose from "mongoose";
 import { messageReceptors } from "../../helpers/messageReceptor.js";
 
-const replySchema = new mongoose.Schema({
-  content: { type: String, required: true },
-});
+const replySchema = new mongoose.Schema(
+  {
+    content: { type: String, required: true },
+    from: {
+      type: mongoose.Types.ObjectId,
+      refPath: "fromModel",
+      required: true,
+    },
+    fromModel: {
+      type: String,
+      enum: Object.values(messageReceptors),
+      required: true,
+    },
+    peopleWhoSee: {
+      type: [{ type: mongoose.Types.ObjectId, required: true }],
+      default: [],
+    },
+  },
+  { timestamps: { createdAt: "create_at" } }
+);
 
 const messageSchema = new mongoose.Schema(
   {
@@ -24,6 +41,10 @@ const messageSchema = new mongoose.Schema(
       enum: Object.values(messageReceptors),
       required: true,
       type: String,
+    },
+    peopleWhoSee: {
+      type: [{ type: mongoose.Types.ObjectId, required: true }],
+      default: [],
     },
     replys: { type: [replySchema], default: [] },
   },

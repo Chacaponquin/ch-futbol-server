@@ -1,5 +1,5 @@
 import { HttpQueryError } from "apollo-server-core";
-import schemas from "../../../db/schemas.js";
+import mongoose from "mongoose";
 import Message from "../../../db/schemas/Message.js";
 import { filterType } from "../../messageReceptor.js";
 
@@ -18,13 +18,9 @@ export const createMessage = async ({ content, to, title }, from) => {
 
         await newMessage.save();
 
-        const model = filterType(to.type);
-        if (model) {
-          await schemas[model].updateOne(
-            { _id: to.id },
-            { $push: { messages: newMessage._id } }
-          );
-        }
+        await mongoose
+          .model(filterType(to.type))
+          .updateOne({ _id: to.id }, { $push: { messages: newMessage._id } });
 
         return newMessage._id;
       } else throw new Error("No se puede enviar un mensaje a uno mismo");

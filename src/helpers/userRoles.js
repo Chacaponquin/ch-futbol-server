@@ -7,6 +7,6 @@ export const userCategorys = {
 export const userRoles = {
   PLAYER: "Player",
   TRAINER: "Trainer",
-  CLUB_OWNER: "Club Owner",
+  CLUB_OWNER: "Team",
   MANAGER: "Manager",
 };
