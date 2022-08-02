@@ -76,7 +76,8 @@ const playerSchema = new mongoose.Schema(
       enum: playerPositions,
     },
     country: { type: String, required: true, enum: countryList },
-    salary: { type: Number, min: 0 },
+
+    salary: { type: Number, min: 0, default: 0 },
 
     teamsRecord: {
       type: [teamRecordSchema],
@@ -130,6 +131,8 @@ playerSchema
 
 playerSchema.method("peopleToSendMessage", function () {
   console.log(this.actualTeam);
+
+  return [];
 });
 
 // VIRTUAL CON EL NOMBRE COMPLETO

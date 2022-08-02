@@ -26,7 +26,7 @@ export const offertsSchema = gql`
     salary: Float!
     team: Team!
     mount: Float!
-    element: ElementsOffertUnion
+    element: ElementsOffertUnion!
   }
 
   type Query {

@@ -8,7 +8,7 @@ export const createPlayer = async (
   { _id }
 ) => {
   try {
-    await validateNoRepeatPlayer(createdBy);
+    await validateNoRepeatElement(_id);
 
     const newPlayer = new Player({
       createdBy: _id,
@@ -33,11 +33,16 @@ export const createPlayer = async (
 };
 
 //FUNCION PARA VALIDAR QUE UN USUARIO PUEDE TENER MAS DE UN JUGADOR CREADO POR EL
-const validateNoRepeatPlayer = async (id) => {
+const validateNoRepeatElement = async (id) => {
   const userFound = await User.findById(id);
 
   if (userFound) {
-    if (userFound.category == userCategorys.CURRENT_USER) {
+    const elements = await userFound.elementsOwner();
+
+    if (
+      userFound.category == userCategorys.CURRENT_USER &&
+      elements.length > 1
+    ) {
       throw new Error(
         "El usuario no puede crear mas de un elemento debido a que no es Manager"
       );
