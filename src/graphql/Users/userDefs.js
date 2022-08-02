@@ -33,7 +33,8 @@ export const userSchema = gql`
     role: String!
     category: String!
     isAdmin: Boolean!
-    elementsOwner: [OwnerElement]!
+    elementsOwner: [OwnerElement!]!
+    isNew: Boolean!
   }
 
   type Query {

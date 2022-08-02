@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema(
       type: [{ type: mongoose.Types.ObjectId, ref: "Message" }],
       default: [],
     },
+    isNew: { type: Boolean, default: true },
   },
   { timestamps: { createdAt: "create_at" } }
 );

@@ -97,13 +97,13 @@ const playerSchema = new mongoose.Schema(
     seasonRecords: { type: [seasonRecordSchema], default: [] },
 
     messages: {
-      type: [mongoose.Types.ObjectId],
+      type: [{ type: mongoose.Types.ObjectId, required: true }],
       ref: "Message",
       default: [],
     },
 
     offerts: {
-      type: [mongoose.Types.ObjectId],
+      type: [{ type: mongoose.Types.ObjectId, required: true }],
       default: [],
       ref: "PlayerOffert",
     },

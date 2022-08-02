@@ -1,5 +1,6 @@
 import { gql } from "apollo-server-core";
 import { createOffert } from "../../helpers/tasks/offert/createOffert.js";
+import { getOffertsById } from "../../helpers/tasks/offert/getOffertsById.js";
 
 export const offertsSchema = gql`
   enum TypeOffert {
@@ -28,13 +29,20 @@ export const offertsSchema = gql`
     element: ElementsOffertUnion
   }
 
+  type Query {
+    getOffertsById(elementID: ID!): [Offert!]!
+  }
+
   type Mutation {
     createOffert(offert: CreateOffertInput!): [ID!]!
   }
 `;
 
 export const offertsResolvers = {
-  Query: {},
+  Query: {
+    getOffertsById: (root, { elementID }, { currentUser }) =>
+      getOffertsById(elementID, currentUser),
+  },
   Mutation: {
     createOffert: (root, args) => createOffert(args.offert),
   },
